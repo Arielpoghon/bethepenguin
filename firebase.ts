@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCpuy_LtBwnWJ61G6lslurD8R7_DUtwEcY', // your real key here
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY, // your real key here
   authDomain: 'postle-d3ea6.firebaseapp.com',
   projectId: 'postle-d3ea6',
   storageBucket: 'postle-d3ea6.appspot.com',
