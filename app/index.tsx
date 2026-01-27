@@ -8,7 +8,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   Alert,
   Animated,
-  ImageBackground,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
@@ -19,10 +18,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { Video } from 'expo-av';
 import { router } from 'expo-router';
 import { auth } from '../firebase';
 
-import penguinImage from './i05j2eq_nihilist-penguin_625x300_25_January_26.avif';
+const penguinVideo = require('./grok-video-5ed0a94c-11fd-4596-aa1f-5abc44f7be14.mp4');
 
 export default function Index() {
   const [email, setEmail] = useState('');
@@ -43,7 +43,7 @@ export default function Index() {
     return unsub;
   }, []);
 
-  // 🚀 Redirect AFTER login
+  // 🚀 Redirect after login
   useEffect(() => {
     if (user) {
       router.replace('/(tabs)');
@@ -54,7 +54,7 @@ export default function Index() {
     setShowAuth(true);
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 400,
+      duration: 450,
       useNativeDriver: true,
     }).start();
   };
@@ -83,7 +83,7 @@ export default function Index() {
     }
   };
 
-  // ⏳ Loading
+  // ⏳ Loading state
   if (loading) {
     return (
       <View style={styles.center}>
@@ -92,19 +92,31 @@ export default function Index() {
     );
   }
 
-  // 🌟 Hero + Auth
   return (
     <>
       <StatusBar barStyle="light-content" translucent />
-      <ImageBackground source={penguinImage} style={styles.background}>
+      <View style={styles.container}>
+        {/* 🎥 Background Video */}
+        <Video
+          source={penguinVideo}
+          style={StyleSheet.absoluteFill}
+          resizeMode="cover"
+          isLooping
+          shouldPlay
+          isMuted
+        />
+
+        {/* 🌑 Dark overlay */}
+        <View style={styles.overlay} />
+
         <SafeAreaView style={{ flex: 1 }}>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={{ flex: 1 }}
           >
-            <View style={styles.overlay}>
+            <View style={styles.content}>
               {!showAuth ? (
-                // HERO
+                // 🐧 HERO
                 <View style={styles.center}>
                   <Text style={styles.title}>Be The Penguin</Text>
                   <Text style={styles.subtitle}>
@@ -119,7 +131,7 @@ export default function Index() {
                   </TouchableOpacity>
                 </View>
               ) : (
-                // AUTH
+                // 🔐 AUTH
                 <Animated.View style={{ opacity: fadeAnim }}>
                   <Text style={styles.title}>Welcome</Text>
 
@@ -159,23 +171,27 @@ export default function Index() {
             </View>
           </KeyboardAvoidingView>
         </SafeAreaView>
-      </ImageBackground>
+      </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  center: {
+  container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#000',
   },
-  background: { flex: 1 },
   overlay: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0,0,0,0.45)',
+  },
+  content: {
+    flex: 1,
     justifyContent: 'center',
     padding: 32,
+  },
+  center: {
+    alignItems: 'center',
   },
   title: {
     fontSize: 42,
@@ -192,7 +208,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: 'rgba(255,255,255,0.2)',
-    borderRadius: 12,
+    borderRadius: 14,
     padding: 16,
     color: '#fff',
     marginBottom: 16,
@@ -212,8 +228,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
   },
-  signupButton: { backgroundColor: '#21c2f3' },
-  loginButton: { backgroundColor: '#4CAF50' },
+  signupButton: {
+    backgroundColor: '#21c2f3',
+  },
+  loginButton: {
+    backgroundColor: '#4CAF50',
+  },
   buttonText: {
     color: '#fff',
     fontSize: 18,
