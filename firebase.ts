@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY, // your real key here
@@ -14,3 +15,4 @@ const app = initializeApp(firebaseConfig);
 
 // 🔥 THIS WAS MISSING
 export const auth = getAuth(app);
+export const db = getFirestore(app);

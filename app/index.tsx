@@ -20,13 +20,15 @@ import {
 } from 'react-native';
 import { Video } from 'expo-av';
 import { router } from 'expo-router';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 const penguinVideo = require('./grok-video-5ed0a94c-11fd-4596-aa1f-5abc44f7be14.mp4');
 
 export default function Index() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
 
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -34,21 +36,46 @@ export default function Index() {
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  // 🔐 Auth listener
+  // 🔐 AUTH LISTENER + ROUTING
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
+    const unsub = onAuthStateChanged(auth, async (currentUser) => {
+      if (!currentUser) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const userRef = doc(db, 'users', currentUser.uid);
+        const snap = await getDoc(userRef);
+
+        if (!snap.exists()) {
+          Alert.alert('Error', 'User profile not found');
+          setLoading(false);
+          return;
+        }
+
+        const data = snap.data();
+
+        // ✅ ROUTES THAT ACTUALLY EXIST
+        if (data.onboardingStep === 'welcome') {
+          router.replace('/goals');
+        } else if (data.onboardingStep === 'goals') {
+          router.replace('/goals');
+        } else {
+          router.replace('/home');
+        }
+
+        setUser(currentUser);
+      } catch (err) {
+        Alert.alert('Error', 'Failed to load user profile');
+      } finally {
+        setLoading(false);
+      }
     });
+
     return unsub;
   }, []);
-
-  // 🚀 Redirect after login
-  useEffect(() => {
-    if (user) {
-      router.replace('/(tabs)');
-    }
-  }, [user]);
 
   const startJourney = () => {
     setShowAuth(true);
@@ -60,12 +87,25 @@ export default function Index() {
   };
 
   const handleSignUp = async () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'Please enter email and password');
+    if (!email || !password || !username) {
+      Alert.alert('Error', 'Please fill all fields');
       return;
     }
+
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      await setDoc(doc(db, 'users', result.user.uid), {
+        email,
+        username,
+        onboardingStep: 'welcome',
+        createdAt: serverTimestamp(),
+      });
+
     } catch (error: any) {
       Alert.alert('Sign Up Error', error.message);
     }
@@ -76,6 +116,7 @@ export default function Index() {
       Alert.alert('Error', 'Please enter email and password');
       return;
     }
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
@@ -83,11 +124,10 @@ export default function Index() {
     }
   };
 
-  // ⏳ Loading state
   if (loading) {
     return (
       <View style={styles.center}>
-        <Text>Loading...</Text>
+        <Text style={{ color: '#fff' }}>Loading...</Text>
       </View>
     );
   }
@@ -96,7 +136,6 @@ export default function Index() {
     <>
       <StatusBar barStyle="light-content" translucent />
       <View style={styles.container}>
-        {/* 🎥 Background Video */}
         <Video
           source={penguinVideo}
           style={StyleSheet.absoluteFill}
@@ -105,8 +144,6 @@ export default function Index() {
           shouldPlay
           isMuted
         />
-
-        {/* 🌑 Dark overlay */}
         <View style={styles.overlay} />
 
         <SafeAreaView style={{ flex: 1 }}>
@@ -116,13 +153,11 @@ export default function Index() {
           >
             <View style={styles.content}>
               {!showAuth ? (
-                // 🐧 HERO
                 <View style={styles.center}>
                   <Text style={styles.title}>Be The Penguin</Text>
                   <Text style={styles.subtitle}>
                     Build better habits. Track your growth.
                   </Text>
-
                   <TouchableOpacity
                     style={[styles.button, styles.startButton]}
                     onPress={startJourney}
@@ -131,10 +166,16 @@ export default function Index() {
                   </TouchableOpacity>
                 </View>
               ) : (
-                // 🔐 AUTH
                 <Animated.View style={{ opacity: fadeAnim }}>
                   <Text style={styles.title}>Welcome</Text>
 
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Username"
+                    placeholderTextColor="#ccc"
+                    value={username}
+                    onChangeText={setUsername}
+                  />
                   <TextInput
                     style={styles.input}
                     placeholder="Email"
@@ -143,7 +184,6 @@ export default function Index() {
                     onChangeText={setEmail}
                     autoCapitalize="none"
                   />
-
                   <TextInput
                     style={styles.input}
                     placeholder="Password"
@@ -177,10 +217,7 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-  },
+  container: { flex: 1, backgroundColor: '#000' },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0,0,0,0.45)',
@@ -228,12 +265,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
   },
-  signupButton: {
-    backgroundColor: '#21c2f3',
-  },
-  loginButton: {
-    backgroundColor: '#4CAF50',
-  },
+  signupButton: { backgroundColor: '#21c2f3' },
+  loginButton: { backgroundColor: '#4CAF50' },
   buttonText: {
     color: '#fff',
     fontSize: 18,
