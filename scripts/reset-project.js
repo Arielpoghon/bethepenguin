@@ -15,7 +15,6 @@ const oldDirs = ["app", "components", "hooks", "constants", "scripts"];
 const exampleDir = "app-example";
 const newAppDir = "app";
 const exampleDirPath = path.join(root, exampleDir);
-
 const indexContent = `import { Text, View } from "react-native";
 
 export default function Index() {
