@@ -9,7 +9,7 @@ import {
   Alert,
   Animated,
   KeyboardAvoidingView,
-  Platform, 
+  Platform,  
   SafeAreaView, 
   StatusBar,
   StyleSheet, 
