@@ -18,7 +18,7 @@ import {
   TouchableOpacity,
   View, 
 } from 'react-native';
-import { Video } from 'expo-av';
+import { Video } from 'expo-av'; 
 import { router } from 'expo-router'; 
 import { auth, db } from '../firebase';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
