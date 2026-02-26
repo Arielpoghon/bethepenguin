@@ -16,7 +16,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View, 
 } from 'react-native';
 import { Video } from 'expo-av';
 import { router } from 'expo-router';
