@@ -22,7 +22,6 @@ import { Video } from 'expo-av';
 import { router } from 'expo-router'; 
 import { auth, db } from '../firebase';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
-
 const penguinVideo = require('./grok-video-5ed0a94c-11fd-4596-aa1f-5abc44f7be14.mp4');
 
 export default function Index() {
