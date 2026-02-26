@@ -12,7 +12,7 @@ import {
   Platform, 
   SafeAreaView, 
   StatusBar,
-  StyleSheet,
+  StyleSheet, 
   Text,
   TextInput,
   TouchableOpacity,
