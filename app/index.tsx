@@ -27,7 +27,7 @@ const penguinVideo = require('./grok-video-5ed0a94c-11fd-4596-aa1f-5abc44f7be14.
 export default function Index() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(''); 
 
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
