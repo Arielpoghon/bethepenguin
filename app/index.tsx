@@ -29,9 +29,9 @@ export default function Index() {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState(''); 
 
-  const [user, setUser] = useState<User | null>(null);a
-  const [loading, setLoading] = useState(true);b
-  const [showAuth, setShowAuth] = useState(false);c
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [showAuth, setShowAuth] = useState(false);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
