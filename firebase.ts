@@ -4,7 +4,7 @@ import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,  // your real key here
-  authDomain: 'postle-d3ea6.firebaseapp.com', 
+  authDomain: 'postle-d3ea6.firebaseapp.com',  
   projectId: 'postle-d3ea6', 
   storageBucket: 'postle-d3ea6.appspot.com',
   messagingSenderId: '145543571006',  
