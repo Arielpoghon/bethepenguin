@@ -12,7 +12,7 @@ export default function Welcome() {
     await updateDoc(doc(db, 'users', uid), {
       onboardingStep: 'goals',
     });
-    router.replace('/goals');
+    router.replace('/goals'); 
   };
   return (
     <View style={styles.container}> 
