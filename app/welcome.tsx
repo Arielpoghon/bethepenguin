@@ -25,8 +25,8 @@ export default function Welcome() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
+const styles = StyleSheet.create({ 
+  container: { 
     flex: 1,
     backgroundColor: '#000',
     justifyContent: 'center',
