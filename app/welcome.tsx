@@ -6,8 +6,8 @@ import { db } from '../firebase';
 
 export default function Welcome() {
   const handleContinue = async () => {
-    const uid = auth.currentUser?.uid;
-    if (!uid) return;
+    const uid = auth.currentUser?.uid; 
+    if (!uid) return; 
 
     await updateDoc(doc(db, 'users', uid), {
       onboardingStep: 'goals',
@@ -17,7 +17,7 @@ export default function Welcome() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container}> 
       <Text style={styles.text}>You showed up. That matters 🐧</Text>
 
       <TouchableOpacity style={styles.button} onPress={handleContinue}>
