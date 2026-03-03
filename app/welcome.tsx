@@ -12,10 +12,8 @@ export default function Welcome() {
     await updateDoc(doc(db, 'users', uid), {
       onboardingStep: 'goals',
     });
-
     router.replace('/goals');
   };
-
   return (
     <View style={styles.container}> 
       <Text style={styles.text}>You showed up. That matters 🐧</Text>
