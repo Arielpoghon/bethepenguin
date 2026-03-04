@@ -6,7 +6,7 @@ import { db } from '../firebase';
 
 export default function Welcome() {
   const handleContinue = async () => {
-    const uid = auth.currentUser?.uid; 
+    const uid = auth.currentUser?.uid;  
     if (!uid) return; 
 
     await updateDoc(doc(db, 'users', uid), {
