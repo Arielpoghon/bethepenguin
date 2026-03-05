@@ -1,6 +1,6 @@
 import Animated from 'react-native-reanimated'; 
 export function HelloWave() { 
-  return (  
+  return (  abc
     <Animated.Text
       style={{ 
         fontSize: 28, 
