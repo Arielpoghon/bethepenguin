@@ -1,5 +1,5 @@
 import Animated from 'react-native-reanimated';  
-export function HelloWave() {  
+export function HelloWave() {   
   return (  remove this line
     <Animated.Text
       style={{  
