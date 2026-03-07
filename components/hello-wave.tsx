@@ -9,7 +9,7 @@ export function HelloWave() {
         animationName: {  
           '50%': { transform: [{ rotate: '25deg' }] }, 
         },
-        animationIterationCount: 4,
+        animationIterationCount: 4, 
         animationDuration: '300ms', 
       }}> 
       👋 
