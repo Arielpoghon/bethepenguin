@@ -25,7 +25,7 @@ import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 const penguinVideo = require('./grok-video-5ed0a94c-11fd-4596-aa1f-5abc44f7be14.mp4');  
 
 export default function Index() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(''); 
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState(''); 
 
