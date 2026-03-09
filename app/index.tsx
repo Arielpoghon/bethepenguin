@@ -6,8 +6,8 @@ import {
 } from 'firebase/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  Alert,
-  Animated,
+  Alert, 
+  Animated, 
   KeyboardAvoidingView,
   Platform,  
   SafeAreaView, 
