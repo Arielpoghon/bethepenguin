@@ -1,7 +1,7 @@
 import { User } from 'firebase/auth'; 
 import React, { useEffect, useState } from 'react'; 
 import { 
-  SafeAreaView, 
+  SafeAreaView,   
   StyleSheet, 
   Text,
   TouchableOpacity, 
@@ -28,8 +28,8 @@ export default function Home() {
     <SafeAreaView style={styles.container}>
       {/* 🐧 Penguin Welcome */} 
       <View style={styles.penguinBox}> 
-        <Text style={styles.penguin}>🐧</Text>
-        <Text style={styles.welcome}>Good to see you again</Text>
+        <Text style={styles.penguin}>🐧</Text> 
+        <Text style={styles.welcome}>Good to see you again</Text> 
         <Text style={styles.email}>{user.email}</Text>
       </View>
 
