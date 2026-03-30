@@ -1,4 +1,5 @@
 {
+  
   "name": "tasktracker",
   "main": "expo-router/entry",
   "version": "1.0.0",
@@ -9,7 +10,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint"
+  
   },
+  
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
     "@react-navigation/bottom-tabs": "^7.4.0",
